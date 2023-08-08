@@ -80,3 +80,13 @@ func (o *JobsController) FetchPendingJobs(c *gin.Context) {
 	}
 	response_handler.Success(c, res)
 }
+
+func (o *JobsController) CheckJob(c *gin.Context) {
+	res, err := o.JobsUseCase.FetchPendingJobs()
+	if err != nil {
+		response_handler.InternalError(c, err.Error())
+		return
+	}
+
+	response_handler.Success(c, res)
+}

@@ -17,7 +17,7 @@ func (o *JobsRepositoryImpl) Delete(model *model.TrJobsMdl) error {
 
 func (o *JobsRepositoryImpl) Fetch(jobID int) (model.TrJobsMdl, error) {
 	var job model.TrJobsMdl
-	err := o.DB.Fetch(&job, "SELECT * FROM Jobs WHERE JobID = ?", map[string]interface{}{"JobID": jobID})
+	err := o.DB.Fetch(&job, "SELECT * FROM TrJobs WHERE JobID = ?", map[string]interface{}{"JobID": jobID})
 	return job, err
 }
 
@@ -27,7 +27,7 @@ func (o *JobsRepositoryImpl) FetchAll(filterExpr string, param map[string]interf
 		filterExpr = "1 = 1"
 	}
 
-	err := o.DB.Fetch(&jobs, "SELECT * FROM Jobs WHERE "+filterExpr, param)
+	err := o.DB.Fetch(&jobs, "SELECT * FROM TrJobs WHERE "+filterExpr, param)
 	return jobs, err
 }
 

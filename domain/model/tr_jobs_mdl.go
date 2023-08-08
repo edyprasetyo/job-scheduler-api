@@ -3,7 +3,7 @@ package model
 import "time"
 
 type TrJobsMdl struct {
-	JobID       uint64    `gorm:"column:JobID;primaryKey;autoIncrement:true"`
+	JobID       int64     `gorm:"column:JobID;primaryKey;autoIncrement:true"`
 	JobName     string    `gorm:"column:JobName;size:100;not null;uniqueIndex:idx_job_name"`
 	APIUrl      string    `gorm:"column:APIUrl;size:100;not null"`
 	APIResponse string    `gorm:"column:APIResponse;size:4000;not null"`

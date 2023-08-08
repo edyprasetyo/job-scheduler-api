@@ -46,7 +46,7 @@ func (o *JobsUseCaseImpl) FetchPendingJobs() ([]response_dto.JobsFetchPendingJob
 	if err != nil {
 		return []response_dto.JobsFetchPendingJobsResponseDTO{}, err
 	}
-	return jobs_mapper.MapFetchAllResponseDto(jobs), nil
+	return jobs_mapper.MapFetchPendingJobsResponseDto(jobs), nil
 }
 
 func NewJobsUsecase(jobsRepository repository.JobsRepository) usecase.JobsUsecase {

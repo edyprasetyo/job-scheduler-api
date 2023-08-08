@@ -30,6 +30,7 @@ func MapCreateResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsCreateRespons
 
 func MapFetchResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsFetchResponseDTO {
 	return &response_dto.JobsFetchResponseDTO{
+		JobID:       jobs.JobID,
 		JobName:     jobs.JobName,
 		APIUrl:      jobs.APIUrl,
 		ExecutedAt:  tools.DateToString(jobs.ExecutedAt, "dd/MM/yyyy HH:mm:ss"),
@@ -37,10 +38,11 @@ func MapFetchResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsFetchResponseD
 	}
 }
 
-func MapFetchAllResponseDto(jobs []model.TrJobsMdl) []response_dto.JobsFetchPendingJobsResponseDTO {
-	var result []response_dto.JobsFetchPendingJobsResponseDTO
+func MapFetchPendingJobsResponseDto(jobs []model.TrJobsMdl) []response_dto.JobsFetchPendingJobsResponseDTO {
+	var result = make([]response_dto.JobsFetchPendingJobsResponseDTO, 0)
 	for _, job := range jobs {
 		result = append(result, response_dto.JobsFetchPendingJobsResponseDTO{
+			JobID:       job.JobID,
 			JobName:     job.JobName,
 			APIUrl:      job.APIUrl,
 			ExecutedAt:  tools.DateToString(job.ExecutedAt, "dd/MM/yyyy HH:mm:ss"),
