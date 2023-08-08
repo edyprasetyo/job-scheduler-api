@@ -18,10 +18,10 @@ func NewJobsController(jobsUseCase usecase.JobsUsecase) *JobsController {
 }
 
 func (o *JobsController) Route(group *gin.RouterGroup, controller *JobsController) {
-	group.GET("/jobs", controller.FetchAll)
 	group.GET("/jobs/:jobID", controller.Fetch)
 	group.POST("/jobs", controller.Create)
 	group.DELETE("/jobs/:jobID", controller.Delete)
+	group.GET("/jobs/pending", controller.FetchPendingJobs)
 }
 
 func (o *JobsController) Create(c *gin.Context) {
@@ -72,8 +72,8 @@ func (o *JobsController) Fetch(c *gin.Context) {
 	response_handler.Success(c, res)
 }
 
-func (o *JobsController) FetchAll(c *gin.Context) {
-	res, err := o.JobsUseCase.FetchAll()
+func (o *JobsController) FetchPendingJobs(c *gin.Context) {
+	res, err := o.JobsUseCase.FetchPendingJobs()
 	if err != nil {
 		response_handler.InternalError(c, err.Error())
 		return

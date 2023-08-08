@@ -1,6 +1,6 @@
 package response_dto
 
-type JobsFetchAllResponseDTO struct {
+type JobsFetchPendingJobsResponseDTO struct {
 	JobName     string `json:"job_name"`
 	APIUrl      string `json:"api_url"`
 	ExecutedAt  string `json:"executed_at"`

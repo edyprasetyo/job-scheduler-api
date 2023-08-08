@@ -41,10 +41,10 @@ func (o *JobsUseCaseImpl) Fetch(jobID int) (response_dto.JobsFetchResponseDTO, e
 	return *jobs_mapper.MapFetchResponseDto(&jobs), nil
 }
 
-func (o *JobsUseCaseImpl) FetchAll() ([]response_dto.JobsFetchAllResponseDTO, error) {
-	jobs, err := o.JobsRepository.FetchAll("", nil)
+func (o *JobsUseCaseImpl) FetchPendingJobs() ([]response_dto.JobsFetchPendingJobsResponseDTO, error) {
+	jobs, err := o.JobsRepository.FetchAll("IsExecuted=0", nil)
 	if err != nil {
-		return []response_dto.JobsFetchAllResponseDTO{}, err
+		return []response_dto.JobsFetchPendingJobsResponseDTO{}, err
 	}
 	return jobs_mapper.MapFetchAllResponseDto(jobs), nil
 }

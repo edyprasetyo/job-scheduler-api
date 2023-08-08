@@ -9,5 +9,5 @@ type JobsUsecase interface {
 	Create(dto request_dto.JobsCreateRequestDTO) (response_dto.JobsCreateResponseDTO, error)
 	Delete(jobID int) error
 	Fetch(jobID int) (response_dto.JobsFetchResponseDTO, error)
-	FetchAll() ([]response_dto.JobsFetchAllResponseDTO, error)
+	FetchPendingJobs() ([]response_dto.JobsFetchPendingJobsResponseDTO, error)
 }
