@@ -32,5 +32,5 @@ Job scheduling is a crucial part of many applications. The Job Scheduler API pro
 1. Clone this repository:
 
    ```sh
-   git clone https://github.com/your-username/job-scheduler-api.git
+   git clone https://github.com/edyprasetyo/job-scheduler-api.git
    ```
