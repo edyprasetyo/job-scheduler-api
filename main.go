@@ -1,9 +1,7 @@
 package main
 
-import (
-	server "jobschedulerapi/api/router"
-)
+import "jobschedulerapi/api"
 
 func main() {
-	server.Run()
+	api.Run()
 }

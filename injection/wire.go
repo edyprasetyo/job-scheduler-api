@@ -5,21 +5,27 @@ package injection
 
 import (
 	"jobschedulerapi/api/controller"
+	"jobschedulerapi/api/router"
 	"jobschedulerapi/application/repository_impl"
 	"jobschedulerapi/application/usecase_impl"
 	"jobschedulerapi/infrastructure/service_impl"
 
+	"github.com/gofiber/fiber/v2"
 	"github.com/google/wire"
-	"gorm.io/gorm"
 )
 
-func InitJobsController(db *gorm.DB) *controller.JobsController {
+var jobsSet = wire.NewSet(
+	repository_impl.NewJobsRepository,
+	usecase_impl.NewJobsUsecase,
+	controller.NewJobsController,
+)
+
+func InitPublicRouter(app *fiber.App) router.PublicRouter {
 	wire.Build(
 		service_impl.NewDatabase,
-		repository_impl.NewJobsRepository,
-		usecase_impl.NewJobsUsecase,
-		controller.NewJobsController,
+		jobsSet,
+		router.NewPublicRouter,
 	)
-	return &controller.JobsController{}
+	return router.PublicRouter{}
 
 }

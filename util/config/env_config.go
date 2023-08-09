@@ -1,4 +1,4 @@
-package util
+package config
 
 import (
 	"log"
@@ -14,7 +14,7 @@ type EnvData struct {
 	DB_PASSWORD string
 }
 
-func getEnv() EnvData {
+func GetEnv() EnvData {
 	goEnv := os.Getenv("GO_ENVIRONMENT")
 	suffix := ""
 	if goEnv == "PRODUCTION" || goEnv == "production" {

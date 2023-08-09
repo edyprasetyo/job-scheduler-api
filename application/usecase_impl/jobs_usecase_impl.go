@@ -42,6 +42,12 @@ func (o *JobsUseCaseImpl) CheckAndRunJobs() error {
 }
 
 func (o *JobsUseCaseImpl) Create(dto request_dto.JobsCreateRequestDTO) (response_dto.JobsCreateResponseDTO, error) {
+
+	validation_err := request_dto.JobsCreateValidator().Struct(dto)
+	if validation_err != nil {
+		return response_dto.JobsCreateResponseDTO{}, validation_err
+	}
+
 	jobs := jobs_mapper.MapCreateRequestDto(&dto)
 	err := o.JobsRepository.Insert(jobs)
 	if err != nil {

@@ -7,8 +7,10 @@
 package injection
 
 import (
-	"gorm.io/gorm"
+	"github.com/gofiber/fiber/v2"
+	"github.com/google/wire"
 	"jobschedulerapi/api/controller"
+	"jobschedulerapi/api/router"
 	"jobschedulerapi/application/repository_impl"
 	"jobschedulerapi/application/usecase_impl"
 	"jobschedulerapi/infrastructure/service_impl"
@@ -16,10 +18,15 @@ import (
 
 // Injectors from wire.go:
 
-func InitJobsController(db *gorm.DB) *controller.JobsController {
-	database := service_impl.NewDatabase(db)
+func InitPublicRouter(app *fiber.App) router.PublicRouter {
+	database := service_impl.NewDatabase()
 	jobsRepository := repository_impl.NewJobsRepository(database)
 	jobsUsecase := usecase_impl.NewJobsUsecase(jobsRepository)
 	jobsController := controller.NewJobsController(jobsUsecase)
-	return jobsController
+	publicRouter := router.NewPublicRouter(app, jobsController)
+	return publicRouter
 }
+
+// wire.go:
+
+var jobsSet = wire.NewSet(repository_impl.NewJobsRepository, usecase_impl.NewJobsUsecase, controller.NewJobsController)

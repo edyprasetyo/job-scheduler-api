@@ -2,12 +2,11 @@ package migration
 
 import (
 	"jobschedulerapi/domain/model"
-
-	"gorm.io/gorm"
+	"jobschedulerapi/util/config"
 )
 
-func Migrate(db *gorm.DB) {
-	//  db.AutoMigrate(&model.TrJobsMdl{})
+func Migrate() {
+	db := config.InitDB()
 	err := db.AutoMigrate(&model.TrJobsMdl{})
 	if err != nil {
 		panic("Failed to auto migrate models")

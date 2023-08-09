@@ -2,6 +2,7 @@ package service_impl
 
 import (
 	"jobschedulerapi/application/service"
+	"jobschedulerapi/util/config"
 
 	"gorm.io/gorm"
 )
@@ -54,6 +55,7 @@ func (o *DatabaseImpl) Update(model interface{}) error {
 	return result.Error
 }
 
-func NewDatabase(db *gorm.DB) service.Database {
+func NewDatabase() service.Database {
+	db := config.InitDB()
 	return &DatabaseImpl{DB: db}
 }

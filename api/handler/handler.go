@@ -1,43 +1,43 @@
-package response_handler
+package handler
 
 import (
 	"jobschedulerapi/domain/extmodel"
 
-	"github.com/gin-gonic/gin"
+	"github.com/gofiber/fiber/v2"
 )
 
-func Success(c *gin.Context, obj interface{}) {
+func Success(c *fiber.Ctx, obj interface{}) error {
 	res := extmodel.ApiResponse{
 		StatusCode: 200,
 		Success:    true,
 		Result:     obj,
 	}
-	c.JSON(200, res)
+	return c.Status(200).JSON(res)
 }
 
-func ValidationError(c *gin.Context, obj interface{}) {
+func ValidationError(c *fiber.Ctx, obj interface{}) error {
 	res := extmodel.ApiResponse{
 		StatusCode: 400,
 		Success:    false,
 		Result:     obj,
 	}
-	c.JSON(400, res)
+	return c.Status(400).JSON(res)
 }
 
-func InternalError(c *gin.Context, obj interface{}) {
+func InternalError(c *fiber.Ctx, obj interface{}) error {
 	res := extmodel.ApiResponse{
 		StatusCode: 500,
 		Success:    false,
 		Result:     obj,
 	}
-	c.JSON(500, res)
+	return c.Status(500).JSON(res)
 }
 
-func Unauthorized(c *gin.Context) {
+func Unauthorized(c *fiber.Ctx) error {
 	res := extmodel.ApiResponse{
 		StatusCode: 401,
 		Success:    false,
 		Result:     "Unauthorized",
 	}
-	c.JSON(401, res)
+	return c.Status(401).JSON(res)
 }
