@@ -9,7 +9,7 @@ import (
 
 func InitDB() *gorm.DB {
 	envData := GetEnv()
-	dsn := "sqlserver://" + envData.DB_USER + ":" + envData.DB_PASSWORD + "@" + envData.DB_HOST + "?database=" + envData.DB_NAME + "&encrypt=disable"
+	dsn := "sqlserver://" + envData.DB_USER + ":" + envData.DB_PASSWORD + "@" + envData.DB_HOST + "?database=" + envData.DB_NAME + "&encrypt=disable&parseTime=true&loc=Local"
 	db, err := gorm.Open(sqlserver.Open(dsn), &gorm.Config{
 		SkipDefaultTransaction: true,
 	})

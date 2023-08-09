@@ -3,19 +3,20 @@ package jobs_dto
 import (
 	ex "jobschedulerapi/api/exception"
 	"jobschedulerapi/util/tools"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 )
 
 type CreateRequestDto struct {
 	JobName    string `json:"jobName" validate:"required"`
-	APIUrl     string `json:"apiUrl" validate:"required,uniqueJobs"`
+	APIUrl     string `json:"apiUrl" validate:"required,validAPIUrl"`
 	ExecutedAt string `json:"executedAt" validate:"required,allowedDate"`
 }
 
 func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
-	v.RegisterValidation("uniqueJobs", uniqueJobs)
 	v.RegisterValidation("allowedDate", allowedDate)
+	v.RegisterValidation("validAPIUrl", validAPIUrl)
 
 	return []ex.ValidationError{
 		{
@@ -35,8 +36,8 @@ func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 		},
 		{
 			Field:   "APIUrl",
-			Message: "API url sudah ada",
-			Tag:     "uniqueJobs",
+			Message: "API url tidak valid, harus mengandung http atau https, contoh: http://localhost:8080",
+			Tag:     "validAPIUrl",
 		},
 		{
 			Field:   "ExecutedAt",
@@ -46,15 +47,15 @@ func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 	}
 }
 
-func uniqueJobs(fl validator.FieldLevel) bool {
+func validAPIUrl(fl validator.FieldLevel) bool {
 	// emailField := fl.Parent().FieldByName("Email")
-	// confirmField := fl.Field()
-	return true
+	apiUrl := fl.Field().String()
+	return strings.Contains(apiUrl, "http") || strings.Contains(apiUrl, "https")
 }
 
 func allowedDate(fl validator.FieldLevel) bool {
-	executedAt := fl.Field()
+	executedAt := fl.Field().String()
 	validFormat := "dd/MM/yyyy HH:mm:ss"
-	time := tools.StringToDate(executedAt.String(), validFormat)
+	time := tools.StringToDate(executedAt, validFormat)
 	return time != nil
 }

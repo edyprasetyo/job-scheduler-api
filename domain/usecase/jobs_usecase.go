@@ -10,5 +10,4 @@ type JobsUsecase interface {
 	Delete(jobID int) error
 	Fetch(jobID int) (jobs_dto.FetchResponseDto, error)
 	FetchPendingJobs() ([]jobs_dto.FetchPendingJobsResponseDto, error)
-	CheckAndRunJobs() error
 }

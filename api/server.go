@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"jobschedulerapi/api/middleware"
+	"jobschedulerapi/api/scheduler"
 	_ "jobschedulerapi/docs"
 	"jobschedulerapi/injection"
 	"jobschedulerapi/util/config"
@@ -24,8 +25,12 @@ func Run() {
 	app.Get("/swagger/*", fiberSwagger.WrapHandler)
 
 	injection.InitPublicRouter(app)
+
+	stopScheduler := make(chan bool)
+	go scheduler.CheckAndRunJobs(stopScheduler)
+
 	port := 8080
 	fmt.Printf("Server is running at http://localhost:%d\n", port)
-	// app.Listen(fmt.Sprintf(":%d", port))
 	log.Fatal(app.Listen(fmt.Sprintf(":%d", port)))
+
 }
