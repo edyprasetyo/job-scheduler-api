@@ -1,0 +1,52 @@
+basePath: /v1
+definitions:
+  ex.ValidationError:
+    properties:
+      field:
+        type: string
+      message:
+        type: string
+      tag:
+        type: string
+    type: object
+  jobs_dto.CreateResponseDto:
+    properties:
+      api_url:
+        type: string
+      created_time:
+        type: string
+      executed_at:
+        type: string
+      job_name:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: This is a job scheduler API for scheduling jobs and running them at
+    a specified time
+  title: Job Scheduler API
+  version: "1.0"
+paths:
+  /jobs:
+    post:
+      consumes:
+      - application/json
+      description: Create a new job
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/jobs_dto.CreateResponseDto'
+        "400":
+          description: Bad Request
+          schema:
+            items:
+              $ref: '#/definitions/ex.ValidationError'
+            type: array
+      summary: Create a new job
+      tags:
+      - jobs
+swagger: "2.0"

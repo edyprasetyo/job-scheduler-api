@@ -25,6 +25,14 @@ func JobsRoute(r fiber.Router, c *JobsController) {
 	group.Get("/all/pending", c.FetchPendingJobs)
 }
 
+// @Summary Create a new job
+// @Description Create a new job
+// @Tags jobs
+// @Accept json
+// @Produce json
+// @Success 200 {object} jobs_dto.CreateResponseDto
+// @Failure 400 {object} []ex.ValidationError
+// @Router /jobs [post]
 func (o *JobsController) Create(c *fiber.Ctx) error {
 	req := jobs_dto.CreateRequestDto{}
 	err := c.BodyParser(&req)
