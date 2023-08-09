@@ -1,7 +1,7 @@
 package jobs_dto
 
 import (
-	"jobschedulerapi/api/exception"
+	ex "jobschedulerapi/api/exception"
 	"jobschedulerapi/util/tools"
 
 	"github.com/go-playground/validator/v10"
@@ -13,11 +13,11 @@ type CreateRequestDto struct {
 	ExecutedAt string `json:"executed_at" validate:"required,allowedDate"`
 }
 
-func RegisterValidation(v *validator.Validate) []exception.ValidationError {
+func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 	v.RegisterValidation("uniqueJobs", uniqueJobs)
 	v.RegisterValidation("allowedDate", allowedDate)
 
-	return []exception.ValidationError{
+	return []ex.ValidationError{
 		{
 			Field:   "JobName",
 			Message: "Job name belum diisi",
@@ -49,20 +49,12 @@ func RegisterValidation(v *validator.Validate) []exception.ValidationError {
 func uniqueJobs(fl validator.FieldLevel) bool {
 	// emailField := fl.Parent().FieldByName("Email")
 	// confirmField := fl.Field()
-
-	// if emailField.IsValid() && confirmField.String() == emailField.String() {
-	// 	return true
-	// }
-
-	// return false
 	return true
 }
 
 func allowedDate(fl validator.FieldLevel) bool {
 	executedAt := fl.Field()
-
 	validFormat := "dd/MM/yyyy HH:mm:ss"
-
 	time := tools.StringToDate(executedAt.String(), validFormat)
 	return time != nil
 }

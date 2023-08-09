@@ -1,4 +1,4 @@
-package exception
+package ex
 
 import (
 	"strings"
@@ -12,7 +12,7 @@ type ValidationError struct {
 	Tag     string
 }
 
-func ListValidation(err error) []ValidationError {
+func getAllValidation(err error) []ValidationError {
 	// err =
 	// Key: 'CreateRequestDto.JobName' Error:Field validation for 'JobName' failed on the 'required' tag
 	// Key: 'CreateRequestDto.APIUrl' Error:Field validation for 'APIUrl' failed on the 'uniqueJobs' tag
@@ -36,7 +36,7 @@ func CreateValidator(dto interface{}, registerValidation func(*validator.Validat
 	validator := validator.New()
 	errMessage := registerValidation(validator)
 	err := validator.Struct(dto)
-	listValidation := ListValidation(err)
+	listValidation := getAllValidation(err)
 	for i, validation := range listValidation {
 		for _, allError := range errMessage {
 			if validation.Tag == allError.Tag && validation.Field == allError.Field {

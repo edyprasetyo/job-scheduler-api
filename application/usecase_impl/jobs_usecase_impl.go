@@ -2,7 +2,7 @@ package usecase_impl
 
 import (
 	"io"
-	"jobschedulerapi/api/exception"
+	ex "jobschedulerapi/api/exception"
 	"jobschedulerapi/domain/dto/jobs_dto"
 	"jobschedulerapi/domain/mapper/jobs_mapper"
 	"jobschedulerapi/domain/repository"
@@ -41,9 +41,9 @@ func (o *JobsUseCaseImpl) CheckAndRunJobs() error {
 	return nil
 }
 
-func (o *JobsUseCaseImpl) Create(dto jobs_dto.CreateRequestDto) (jobs_dto.CreateResponseDto, []exception.ValidationError, error) {
+func (o *JobsUseCaseImpl) Create(dto jobs_dto.CreateRequestDto) (jobs_dto.CreateResponseDto, []ex.ValidationError, error) {
 
-	validation_err := exception.CreateValidator(dto, jobs_dto.RegisterValidation)
+	validation_err := ex.CreateValidator(dto, jobs_dto.CreateRequestValidation)
 	if validation_err != nil {
 		return jobs_dto.CreateResponseDto{}, validation_err, nil
 	}
