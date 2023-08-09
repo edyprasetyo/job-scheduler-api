@@ -1,7 +1,6 @@
 package scheduler
 
 import (
-	"io"
 	"jobschedulerapi/application/repository_impl"
 	"jobschedulerapi/application/service"
 	"jobschedulerapi/domain/model"
@@ -10,7 +9,6 @@ import (
 	"jobschedulerapi/util/tools"
 	"log"
 	"net/http"
-	"strings"
 	"time"
 )
 
@@ -51,7 +49,6 @@ func ExecuteJob(job model.TrJobsMdl, repository repository.JobsRepository, stop 
 	if err != nil {
 		log.Println(err)
 		job.IsExecuted = true
-		job.APIResponse = err.Error()
 		job.IsSuccess = false
 		err = repository.Update(&job)
 		if err != nil {
@@ -60,24 +57,7 @@ func ExecuteJob(job model.TrJobsMdl, repository repository.JobsRepository, stop 
 		return
 	}
 	defer res.Body.Close()
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		log.Println(err)
-		job.IsExecuted = true
-		job.APIResponse = err.Error()
-		job.IsSuccess = false
-		err = repository.Update(&job)
-		if err != nil {
-			log.Println(err)
-		}
-		return
-	}
 	job.IsExecuted = true
-	bodyString := strings.TrimSpace(string(body))
-	if len(bodyString) > 200 {
-		bodyString = bodyString[:200]
-	}
-	job.APIResponse = bodyString
 	job.IsSuccess = true
 	err = repository.Update(&job)
 	if err != nil {
