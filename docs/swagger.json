@@ -7,7 +7,7 @@
         "version": "1.0"
     },
     "host": "localhost:8080",
-    "basePath": "/v1",
+    "basePath": "/api/v1",
     "paths": {
         "/jobs": {
             "post": {
@@ -22,6 +22,17 @@
                     "jobs"
                 ],
                 "summary": "Create a new job",
+                "parameters": [
+                    {
+                        "description": "CreateRequestDto",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/jobs_dto.CreateRequestDto"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -53,6 +64,25 @@
                     "type": "string"
                 },
                 "tag": {
+                    "type": "string"
+                }
+            }
+        },
+        "jobs_dto.CreateRequestDto": {
+            "type": "object",
+            "required": [
+                "api_url",
+                "executed_at",
+                "job_name"
+            ],
+            "properties": {
+                "api_url": {
+                    "type": "string"
+                },
+                "executed_at": {
+                    "type": "string"
+                },
+                "job_name": {
                     "type": "string"
                 }
             }

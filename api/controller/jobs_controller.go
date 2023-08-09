@@ -30,6 +30,7 @@ func JobsRoute(r fiber.Router, c *JobsController) {
 // @Tags jobs
 // @Accept json
 // @Produce json
+// @Param body  body jobs_dto.CreateRequestDto true "CreateRequestDto"
 // @Success 200 {object} jobs_dto.CreateResponseDto
 // @Failure 400 {object} []ex.ValidationError
 // @Router /jobs [post]

@@ -29,6 +29,17 @@ const docTemplate = `{
                     "jobs"
                 ],
                 "summary": "Create a new job",
+                "parameters": [
+                    {
+                        "description": "CreateRequestDto",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/jobs_dto.CreateRequestDto"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -64,6 +75,25 @@ const docTemplate = `{
                 }
             }
         },
+        "jobs_dto.CreateRequestDto": {
+            "type": "object",
+            "required": [
+                "api_url",
+                "executed_at",
+                "job_name"
+            ],
+            "properties": {
+                "api_url": {
+                    "type": "string"
+                },
+                "executed_at": {
+                    "type": "string"
+                },
+                "job_name": {
+                    "type": "string"
+                }
+            }
+        },
         "jobs_dto.CreateResponseDto": {
             "type": "object",
             "properties": {
@@ -88,7 +118,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "localhost:8080",
-	BasePath:         "/v1",
+	BasePath:         "/api/v1",
 	Schemes:          []string{},
 	Title:            "Job Scheduler API",
 	Description:      "This is a job scheduler API for scheduling jobs and running them at a specified time",

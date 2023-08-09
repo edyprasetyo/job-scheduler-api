@@ -1,4 +1,4 @@
-basePath: /v1
+basePath: /api/v1
 definitions:
   ex.ValidationError:
     properties:
@@ -8,6 +8,19 @@ definitions:
         type: string
       tag:
         type: string
+    type: object
+  jobs_dto.CreateRequestDto:
+    properties:
+      api_url:
+        type: string
+      executed_at:
+        type: string
+      job_name:
+        type: string
+    required:
+    - api_url
+    - executed_at
+    - job_name
     type: object
   jobs_dto.CreateResponseDto:
     properties:
@@ -33,6 +46,13 @@ paths:
       consumes:
       - application/json
       description: Create a new job
+      parameters:
+      - description: CreateRequestDto
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/jobs_dto.CreateRequestDto'
       produces:
       - application/json
       responses:
