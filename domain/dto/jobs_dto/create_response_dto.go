@@ -1,8 +1,8 @@
 package jobs_dto
 
 type CreateResponseDto struct {
-	JobName     string `json:"job_name"`
-	APIUrl      string `json:"api_url"`
-	ExecutedAt  string `json:"executed_at"`
-	CreatedTime string `json:"created_time"`
+	JobName     string `json:"jobName"`
+	APIUrl      string `json:"apiUrl"`
+	ExecutedAt  string `json:"executedAt"`
+	CreatedTime string `json:"createdTime"`
 }

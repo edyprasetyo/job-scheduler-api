@@ -4,7 +4,7 @@ import "time"
 
 type TrJobsMdl struct {
 	JobID       int64     `gorm:"column:JobID;primaryKey;autoIncrement:true"`
-	JobName     string    `gorm:"column:JobName;size:100;not null;uniqueIndex:idx_job_name"`
+	JobName     string    `gorm:"column:JobName;size:100;not null;"`
 	APIUrl      string    `gorm:"column:APIUrl;size:100;not null"`
 	APIResponse string    `gorm:"column:APIResponse;size:4000;not null"`
 	IsExecuted  bool      `gorm:"column:IsExecuted;not null"`

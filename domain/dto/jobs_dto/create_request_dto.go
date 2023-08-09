@@ -8,9 +8,9 @@ import (
 )
 
 type CreateRequestDto struct {
-	JobName    string `json:"job_name" validate:"required"`
-	APIUrl     string `json:"api_url" validate:"required,uniqueJobs"`
-	ExecutedAt string `json:"executed_at" validate:"required,allowedDate"`
+	JobName    string `json:"jobName" validate:"required"`
+	APIUrl     string `json:"apiUrl" validate:"required,uniqueJobs"`
+	ExecutedAt string `json:"executedAt" validate:"required,allowedDate"`
 }
 
 func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {

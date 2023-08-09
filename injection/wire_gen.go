@@ -21,7 +21,7 @@ import (
 func InitPublicRouter(app *fiber.App) router.PublicRouter {
 	database := service_impl.NewDatabase()
 	jobsRepository := repository_impl.NewJobsRepository(database)
-	jobsUsecase := usecase_impl.NewJobsUsecase(jobsRepository)
+	jobsUsecase := usecase_impl.NewJobsUsecase(jobsRepository, database)
 	jobsController := controller.NewJobsController(jobsUsecase)
 	publicRouter := router.NewPublicRouter(app, jobsController)
 	return publicRouter

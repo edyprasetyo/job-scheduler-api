@@ -1,9 +1,9 @@
 package jobs_dto
 
 type FetchResponseDto struct {
-	JobID       int64  `json:"job_id"`
-	JobName     string `json:"job_name"`
-	APIUrl      string `json:"api_url"`
-	ExecutedAt  string `json:"executed_at"`
-	CreatedTime string `json:"created_time"`
+	JobID       int64  `json:"jobID"`
+	JobName     string `json:"jobName"`
+	APIUrl      string `json:"apiUrl"`
+	ExecutedAt  string `json:"executedAt"`
+	CreatedTime string `json:"createdTime"`
 }

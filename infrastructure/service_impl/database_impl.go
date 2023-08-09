@@ -11,14 +11,9 @@ type DatabaseImpl struct {
 	DB *gorm.DB
 }
 
-func (o *DatabaseImpl) BeginTransaction() error {
-	result := o.DB.Begin()
-	return result.Error
-}
-
-func (o *DatabaseImpl) CommitTransaction() error {
-	result := o.DB.Commit()
-	return result.Error
+func (o *DatabaseImpl) Begin() *gorm.DB {
+	tx := o.DB.Begin()
+	return tx
 }
 
 func (o *DatabaseImpl) Delete(model interface{}) error {
@@ -42,11 +37,6 @@ func (o *DatabaseImpl) Fetch(destClass interface{}, sql string, param map[string
 
 func (o *DatabaseImpl) Insert(model interface{}) error {
 	result := o.DB.Create(model)
-	return result.Error
-}
-
-func (o *DatabaseImpl) RollbackTransaction() error {
-	result := o.DB.Rollback()
 	return result.Error
 }
 

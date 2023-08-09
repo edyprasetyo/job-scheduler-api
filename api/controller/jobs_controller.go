@@ -25,14 +25,9 @@ func JobsRoute(r fiber.Router, c *JobsController) {
 	group.Get("/all/pending", c.FetchPendingJobs)
 }
 
-// @Summary Create a new job
-// @Description Create a new job
-// @Tags jobs
-// @Accept json
-// @Produce json
+// @Tags Jobs
 // @Param body  body jobs_dto.CreateRequestDto true "CreateRequestDto"
 // @Success 200 {object} jobs_dto.CreateResponseDto
-// @Failure 400 {object} []ex.ValidationError
 // @Router /jobs [post]
 func (o *JobsController) Create(c *fiber.Ctx) error {
 	req := jobs_dto.CreateRequestDto{}
@@ -51,6 +46,10 @@ func (o *JobsController) Create(c *fiber.Ctx) error {
 	return handler.Success(c, res)
 }
 
+// @Tags Jobs
+// @Param jobID path int true "jobID"
+// @Success 200 {string} string
+// @Router /jobs/{jobID} [delete]
 func (o *JobsController) Delete(c *fiber.Ctx) error {
 	jobIDStr := c.Params("jobID")
 	jobID, err := strconv.Atoi(jobIDStr)
@@ -63,9 +62,13 @@ func (o *JobsController) Delete(c *fiber.Ctx) error {
 		return handler.InternalError(c, err.Error())
 
 	}
-	return handler.Success(c, nil)
+	return handler.Success(c, "Job deleted successfully")
 }
 
+// @Tags Jobs
+// @Param jobID path int true "jobID"
+// @Success 200 {object} jobs_dto.FetchResponseDto
+// @Router /jobs/{jobID} [get]
 func (o *JobsController) Fetch(c *fiber.Ctx) error {
 	jobIDStr := c.Params("jobID")
 	jobID, err := strconv.Atoi(jobIDStr)
@@ -81,6 +84,9 @@ func (o *JobsController) Fetch(c *fiber.Ctx) error {
 	return handler.Success(c, res)
 }
 
+// @Tags Jobs
+// @Success 200 {object} []jobs_dto.FetchResponseDto
+// @Router /jobs/all/pending [get]
 func (o *JobsController) FetchPendingJobs(c *fiber.Ctx) error {
 	res, err := o.JobsUseCase.FetchPendingJobs()
 	if err != nil {

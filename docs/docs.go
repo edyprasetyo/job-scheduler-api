@@ -18,17 +18,9 @@ const docTemplate = `{
     "paths": {
         "/jobs": {
             "post": {
-                "description": "Create a new job",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
-                    "jobs"
+                    "Jobs"
                 ],
-                "summary": "Create a new job",
                 "parameters": [
                     {
                         "description": "CreateRequestDto",
@@ -46,14 +38,69 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/jobs_dto.CreateResponseDto"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
+                    }
+                }
+            }
+        },
+        "/jobs/all/pending": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/ex.ValidationError"
+                                "$ref": "#/definitions/jobs_dto.FetchResponseDto"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/jobs/{jobID}": {
+            "get": {
+                "tags": [
+                    "Jobs"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "jobID",
+                        "name": "jobID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/jobs_dto.FetchResponseDto"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Jobs"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "jobID",
+                        "name": "jobID",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -61,35 +108,21 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "ex.ValidationError": {
-            "type": "object",
-            "properties": {
-                "field": {
-                    "type": "string"
-                },
-                "message": {
-                    "type": "string"
-                },
-                "tag": {
-                    "type": "string"
-                }
-            }
-        },
         "jobs_dto.CreateRequestDto": {
             "type": "object",
             "required": [
-                "api_url",
-                "executed_at",
-                "job_name"
+                "apiUrl",
+                "executedAt",
+                "jobName"
             ],
             "properties": {
-                "api_url": {
+                "apiUrl": {
                     "type": "string"
                 },
-                "executed_at": {
+                "executedAt": {
                     "type": "string"
                 },
-                "job_name": {
+                "jobName": {
                     "type": "string"
                 }
             }
@@ -97,16 +130,36 @@ const docTemplate = `{
         "jobs_dto.CreateResponseDto": {
             "type": "object",
             "properties": {
-                "api_url": {
+                "apiUrl": {
                     "type": "string"
                 },
-                "created_time": {
+                "createdTime": {
                     "type": "string"
                 },
-                "executed_at": {
+                "executedAt": {
                     "type": "string"
                 },
-                "job_name": {
+                "jobName": {
+                    "type": "string"
+                }
+            }
+        },
+        "jobs_dto.FetchResponseDto": {
+            "type": "object",
+            "properties": {
+                "apiUrl": {
+                    "type": "string"
+                },
+                "createdTime": {
+                    "type": "string"
+                },
+                "executedAt": {
+                    "type": "string"
+                },
+                "jobID": {
+                    "type": "integer"
+                },
+                "jobName": {
                     "type": "string"
                 }
             }

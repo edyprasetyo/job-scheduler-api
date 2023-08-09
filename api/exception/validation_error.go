@@ -16,7 +16,11 @@ func getAllValidation(err error) []ValidationError {
 	// err =
 	// Key: 'CreateRequestDto.JobName' Error:Field validation for 'JobName' failed on the 'required' tag
 	// Key: 'CreateRequestDto.APIUrl' Error:Field validation for 'APIUrl' failed on the 'uniqueJobs' tag
+	if err == nil {
+		return nil
+	}
 	validationError := make([]ValidationError, 0)
+
 	errors := strings.Split(err.Error(), "\n")
 	for _, error := range errors {
 		if error == "" {

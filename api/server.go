@@ -7,6 +7,7 @@ import (
 	"jobschedulerapi/injection"
 	"jobschedulerapi/util/config"
 	"jobschedulerapi/util/migration"
+	"log"
 
 	"github.com/gofiber/fiber/v2"
 	fiberSwagger "github.com/swaggo/fiber-swagger"
@@ -25,5 +26,6 @@ func Run() {
 	injection.InitPublicRouter(app)
 	port := 8080
 	fmt.Printf("Server is running at http://localhost:%d\n", port)
-	app.Listen(fmt.Sprintf(":%d", port))
+	// app.Listen(fmt.Sprintf(":%d", port))
+	log.Fatal(app.Listen(fmt.Sprintf(":%d", port)))
 }

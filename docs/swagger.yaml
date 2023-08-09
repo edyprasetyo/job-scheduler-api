@@ -1,36 +1,40 @@
 basePath: /api/v1
 definitions:
-  ex.ValidationError:
-    properties:
-      field:
-        type: string
-      message:
-        type: string
-      tag:
-        type: string
-    type: object
   jobs_dto.CreateRequestDto:
     properties:
-      api_url:
+      apiUrl:
         type: string
-      executed_at:
+      executedAt:
         type: string
-      job_name:
+      jobName:
         type: string
     required:
-    - api_url
-    - executed_at
-    - job_name
+    - apiUrl
+    - executedAt
+    - jobName
     type: object
   jobs_dto.CreateResponseDto:
     properties:
-      api_url:
+      apiUrl:
         type: string
-      created_time:
+      createdTime:
         type: string
-      executed_at:
+      executedAt:
         type: string
-      job_name:
+      jobName:
+        type: string
+    type: object
+  jobs_dto.FetchResponseDto:
+    properties:
+      apiUrl:
+        type: string
+      createdTime:
+        type: string
+      executedAt:
+        type: string
+      jobID:
+        type: integer
+      jobName:
         type: string
     type: object
 host: localhost:8080
@@ -43,9 +47,6 @@ info:
 paths:
   /jobs:
     post:
-      consumes:
-      - application/json
-      description: Create a new job
       parameters:
       - description: CreateRequestDto
         in: body
@@ -53,20 +54,51 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/jobs_dto.CreateRequestDto'
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
           schema:
             $ref: '#/definitions/jobs_dto.CreateResponseDto'
-        "400":
-          description: Bad Request
+      tags:
+      - Jobs
+  /jobs/{jobID}:
+    delete:
+      parameters:
+      - description: jobID
+        in: path
+        name: jobID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      tags:
+      - Jobs
+    get:
+      parameters:
+      - description: jobID
+        in: path
+        name: jobID
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/jobs_dto.FetchResponseDto'
+      tags:
+      - Jobs
+  /jobs/all/pending:
+    get:
+      responses:
+        "200":
+          description: OK
           schema:
             items:
-              $ref: '#/definitions/ex.ValidationError'
+              $ref: '#/definitions/jobs_dto.FetchResponseDto'
             type: array
-      summary: Create a new job
       tags:
-      - jobs
+      - Jobs
 swagger: "2.0"
