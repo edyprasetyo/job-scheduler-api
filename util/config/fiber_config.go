@@ -1,14 +1,12 @@
 package config
 
 import (
-	"jobschedulerapi/api/exception"
-
 	"github.com/gofiber/fiber/v2"
 )
 
 func NewFiberConfig() fiber.Config {
 	return fiber.Config{
-		ErrorHandler:  exception.ErrorHandler,
+		// ErrorHandler:  exception.ErrorHandler,
 		StrictRouting: true,
 	}
 }

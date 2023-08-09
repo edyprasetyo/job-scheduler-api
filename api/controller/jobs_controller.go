@@ -2,7 +2,7 @@ package controller
 
 import (
 	"jobschedulerapi/api/handler"
-	"jobschedulerapi/domain/dto/jobs/request_dto"
+	"jobschedulerapi/domain/dto/jobs_dto"
 	"jobschedulerapi/domain/usecase"
 	"strconv"
 
@@ -26,13 +26,16 @@ func JobsRoute(r fiber.Router, c *JobsController) {
 }
 
 func (o *JobsController) Create(c *fiber.Ctx) error {
-	req := request_dto.JobsCreateRequestDTO{}
+	req := jobs_dto.CreateRequestDto{}
 	err := c.BodyParser(&req)
 	if err != nil {
 		return handler.ValidationError(c, err.Error())
 	}
 
-	res, err := o.JobsUseCase.Create(req)
+	res, validation, err := o.JobsUseCase.Create(req)
+	if validation != nil {
+		return handler.ValidationError(c, validation)
+	}
 	if err != nil {
 		return handler.InternalError(c, err.Error())
 	}

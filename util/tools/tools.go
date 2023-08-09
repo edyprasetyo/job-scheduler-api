@@ -26,8 +26,11 @@ func GenerateUUID() string {
 	return uuid.New().String()
 }
 
-func StringToDate(dateStr string, dateFormat string) time.Time {
+func StringToDate(dateStr string, dateFormat string) *time.Time {
 	goDateFormat := generalDateFormatToGoDateFormat(dateFormat)
-	date, _ := time.Parse(goDateFormat, dateStr)
-	return date
+	date, err := time.Parse(goDateFormat, dateStr)
+	if err != nil {
+		return nil
+	}
+	return &date
 }

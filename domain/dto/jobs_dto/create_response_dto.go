@@ -1,7 +1,6 @@
-package response_dto
+package jobs_dto
 
-type JobsFetchResponseDTO struct {
-	JobID       int64  `json:"job_id"`
+type CreateResponseDto struct {
 	JobName     string `json:"job_name"`
 	APIUrl      string `json:"api_url"`
 	ExecutedAt  string `json:"executed_at"`

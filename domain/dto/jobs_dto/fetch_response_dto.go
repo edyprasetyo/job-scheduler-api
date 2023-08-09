@@ -1,6 +1,6 @@
-package response_dto
+package jobs_dto
 
-type JobsFetchPendingJobsResponseDTO struct {
+type FetchResponseDto struct {
 	JobID       int64  `json:"job_id"`
 	JobName     string `json:"job_name"`
 	APIUrl      string `json:"api_url"`

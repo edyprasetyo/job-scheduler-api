@@ -1,26 +1,25 @@
 package jobs_mapper
 
 import (
-	"jobschedulerapi/domain/dto/jobs/request_dto"
-	"jobschedulerapi/domain/dto/jobs/response_dto"
+	"jobschedulerapi/domain/dto/jobs_dto"
 	"jobschedulerapi/domain/model"
 	"jobschedulerapi/util/tools"
 
 	"time"
 )
 
-func MapCreateRequestDto(dto *request_dto.JobsCreateRequestDTO) *model.TrJobsMdl {
+func MapCreateRequestDto(dto *jobs_dto.CreateRequestDto) *model.TrJobsMdl {
 	return &model.TrJobsMdl{
 		JobName:     dto.JobName,
 		APIUrl:      dto.APIUrl,
 		IsExecuted:  false,
-		ExecutedAt:  tools.StringToDate(dto.ExecutedAt, "dd/MM/yyyy HH:mm:ss"),
+		ExecutedAt:  *tools.StringToDate(dto.ExecutedAt, "dd/MM/yyyy HH:mm:ss"),
 		CreatedTime: time.Now(),
 	}
 }
 
-func MapCreateResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsCreateResponseDTO {
-	return &response_dto.JobsCreateResponseDTO{
+func MapCreateResponseDto(jobs *model.TrJobsMdl) *jobs_dto.CreateResponseDto {
+	return &jobs_dto.CreateResponseDto{
 		JobName:     jobs.JobName,
 		APIUrl:      jobs.APIUrl,
 		ExecutedAt:  tools.DateToString(jobs.ExecutedAt, "dd/MM/yyyy HH:mm:ss"),
@@ -28,8 +27,8 @@ func MapCreateResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsCreateRespons
 	}
 }
 
-func MapFetchResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsFetchResponseDTO {
-	return &response_dto.JobsFetchResponseDTO{
+func MapFetchResponseDto(jobs *model.TrJobsMdl) *jobs_dto.FetchResponseDto {
+	return &jobs_dto.FetchResponseDto{
 		JobID:       jobs.JobID,
 		JobName:     jobs.JobName,
 		APIUrl:      jobs.APIUrl,
@@ -38,10 +37,10 @@ func MapFetchResponseDto(jobs *model.TrJobsMdl) *response_dto.JobsFetchResponseD
 	}
 }
 
-func MapFetchPendingJobsResponseDto(jobs []model.TrJobsMdl) []response_dto.JobsFetchPendingJobsResponseDTO {
-	var result = make([]response_dto.JobsFetchPendingJobsResponseDTO, 0)
+func MapFetchPendingJobsResponseDto(jobs []model.TrJobsMdl) []jobs_dto.FetchPendingJobsResponseDto {
+	var result = make([]jobs_dto.FetchPendingJobsResponseDto, 0)
 	for _, job := range jobs {
-		result = append(result, response_dto.JobsFetchPendingJobsResponseDTO{
+		result = append(result, jobs_dto.FetchPendingJobsResponseDto{
 			JobID:       job.JobID,
 			JobName:     job.JobName,
 			APIUrl:      job.APIUrl,

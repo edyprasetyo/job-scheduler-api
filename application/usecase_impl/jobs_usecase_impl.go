@@ -2,8 +2,8 @@ package usecase_impl
 
 import (
 	"io"
-	"jobschedulerapi/domain/dto/jobs/request_dto"
-	"jobschedulerapi/domain/dto/jobs/response_dto"
+	"jobschedulerapi/api/exception"
+	"jobschedulerapi/domain/dto/jobs_dto"
 	"jobschedulerapi/domain/mapper/jobs_mapper"
 	"jobschedulerapi/domain/repository"
 	"jobschedulerapi/domain/usecase"
@@ -41,19 +41,19 @@ func (o *JobsUseCaseImpl) CheckAndRunJobs() error {
 	return nil
 }
 
-func (o *JobsUseCaseImpl) Create(dto request_dto.JobsCreateRequestDTO) (response_dto.JobsCreateResponseDTO, error) {
+func (o *JobsUseCaseImpl) Create(dto jobs_dto.CreateRequestDto) (jobs_dto.CreateResponseDto, []exception.ValidationError, error) {
 
-	validation_err := request_dto.JobsCreateValidator().Struct(dto)
+	validation_err := exception.CreateValidator(dto, jobs_dto.RegisterValidation)
 	if validation_err != nil {
-		return response_dto.JobsCreateResponseDTO{}, validation_err
+		return jobs_dto.CreateResponseDto{}, validation_err, nil
 	}
 
 	jobs := jobs_mapper.MapCreateRequestDto(&dto)
 	err := o.JobsRepository.Insert(jobs)
 	if err != nil {
-		return response_dto.JobsCreateResponseDTO{}, err
+		return jobs_dto.CreateResponseDto{}, nil, err
 	}
-	return *jobs_mapper.MapCreateResponseDto(jobs), nil
+	return *jobs_mapper.MapCreateResponseDto(jobs), nil, nil
 }
 
 func (o *JobsUseCaseImpl) Delete(jobID int) error {
@@ -68,18 +68,18 @@ func (o *JobsUseCaseImpl) Delete(jobID int) error {
 	return nil
 }
 
-func (o *JobsUseCaseImpl) Fetch(jobID int) (response_dto.JobsFetchResponseDTO, error) {
+func (o *JobsUseCaseImpl) Fetch(jobID int) (jobs_dto.FetchResponseDto, error) {
 	jobs, err := o.JobsRepository.Fetch(jobID)
 	if err != nil {
-		return response_dto.JobsFetchResponseDTO{}, err
+		return jobs_dto.FetchResponseDto{}, err
 	}
 	return *jobs_mapper.MapFetchResponseDto(&jobs), nil
 }
 
-func (o *JobsUseCaseImpl) FetchPendingJobs() ([]response_dto.JobsFetchPendingJobsResponseDTO, error) {
+func (o *JobsUseCaseImpl) FetchPendingJobs() ([]jobs_dto.FetchPendingJobsResponseDto, error) {
 	jobs, err := o.JobsRepository.FetchAll("IsExecuted=0", nil)
 	if err != nil {
-		return []response_dto.JobsFetchPendingJobsResponseDTO{}, err
+		return []jobs_dto.FetchPendingJobsResponseDto{}, err
 	}
 	return jobs_mapper.MapFetchPendingJobsResponseDto(jobs), nil
 }
