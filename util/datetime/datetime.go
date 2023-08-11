@@ -1,6 +1,7 @@
 package datetime
 
 import (
+	"strings"
 	"time"
 )
 
@@ -31,4 +32,28 @@ func DiffInHours(date1 time.Time, date2 time.Time) int {
 
 func DiffInDays(date1 time.Time, date2 time.Time) int {
 	return int(date2.Sub(date1).Hours() / 24)
+}
+
+func generalDateFormatToGoDateFormat(dateFormat string) string {
+	goDateFormat := strings.ReplaceAll(dateFormat, "dd", "02")
+	goDateFormat = strings.ReplaceAll(goDateFormat, "MM", "01")
+	goDateFormat = strings.ReplaceAll(goDateFormat, "yyyy", "2006")
+	goDateFormat = strings.ReplaceAll(goDateFormat, "HH", "15")
+	goDateFormat = strings.ReplaceAll(goDateFormat, "mm", "04")
+	goDateFormat = strings.ReplaceAll(goDateFormat, "ss", "05")
+	return goDateFormat
+}
+
+func ToString(date time.Time, dateFormat string) string {
+	goDateFormat := generalDateFormatToGoDateFormat(dateFormat)
+	return date.Format(goDateFormat)
+}
+
+func FromString(dateStr string, dateFormat string) *time.Time {
+	goDateFormat := generalDateFormatToGoDateFormat(dateFormat)
+	date, err := time.Parse(goDateFormat, dateStr)
+	if err != nil {
+		return nil
+	}
+	return &date
 }

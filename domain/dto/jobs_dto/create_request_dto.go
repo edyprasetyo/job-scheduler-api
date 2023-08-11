@@ -2,7 +2,7 @@ package jobs_dto
 
 import (
 	ex "jobschedulerapi/api/exception"
-	"jobschedulerapi/util/tools"
+	"jobschedulerapi/util/datetime"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -68,7 +68,7 @@ func validAPIUrl(fl validator.FieldLevel) bool {
 func allowedDate(fl validator.FieldLevel) bool {
 	executedAt := fl.Field().String()
 	validFormat := "dd/MM/yyyy HH:mm:ss"
-	time := tools.StringToDate(executedAt, validFormat)
+	time := datetime.FromString(executedAt, validFormat)
 	return time != nil
 }
 
