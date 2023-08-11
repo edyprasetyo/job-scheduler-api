@@ -34,15 +34,3 @@ func StringToDate(dateStr string, dateFormat string) *time.Time {
 	}
 	return &date
 }
-
-func IsDateBefore(date1 time.Time, date2 time.Time) bool {
-	t1 := time.Date(date1.Year(), date1.Month(), date1.Day(), date1.Hour(), date1.Minute(), date1.Second(), date1.Nanosecond(), time.UTC)
-	t2 := time.Date(date2.Year(), date2.Month(), date2.Day(), date2.Hour(), date2.Minute(), date2.Second(), date2.Nanosecond(), time.UTC)
-	return t1.Before(t2)
-}
-
-func DatediffInSeconds(date1 time.Time, date2 time.Time) int {
-	t1 := time.Date(date1.Year(), date1.Month(), date1.Day(), date1.Hour(), date1.Minute(), date1.Second(), date1.Nanosecond(), time.UTC)
-	t2 := time.Date(date2.Year(), date2.Month(), date2.Day(), date2.Hour(), date2.Minute(), date2.Second(), date2.Nanosecond(), time.UTC)
-	return int(t1.Sub(t2).Seconds())
-}

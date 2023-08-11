@@ -6,7 +6,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func ErrorMiddleware(c *fiber.Ctx) error {
+func Error(c *fiber.Ctx) error {
 	if err := c.Next(); err != nil {
 		// Access the error message from the context
 		errorMessage := err.Error()

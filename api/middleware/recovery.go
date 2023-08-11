@@ -8,7 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func RecoveryMiddleware(c *fiber.Ctx) error {
+func Recovery(c *fiber.Ctx) error {
 	defer func() {
 		if r := recover(); r != nil {
 			log.Printf("Panic: %v\n", r)

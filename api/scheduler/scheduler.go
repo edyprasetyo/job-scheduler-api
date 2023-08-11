@@ -6,13 +6,13 @@ import (
 	"jobschedulerapi/domain/model"
 	"jobschedulerapi/domain/repository"
 	"jobschedulerapi/infrastructure/service_impl"
-	"jobschedulerapi/util/tools"
+	"jobschedulerapi/util/datetime"
 	"log"
 	"net/http"
 	"time"
 )
 
-var intervalInSeconds = 10
+var intervalInSeconds = 20
 
 func CheckAndRunJobs(stop chan bool) {
 	db := service_impl.NewDatabase()
@@ -28,7 +28,6 @@ func CheckAndRunJobs(stop chan bool) {
 			return
 		}
 	}
-
 }
 
 func CheckJob(db service.Database, stop chan bool) {
@@ -67,14 +66,14 @@ func ExecuteJob(job model.TrJobsMdl, repository repository.JobsRepository, stop 
 }
 
 func RunJob(job model.TrJobsMdl, repository repository.JobsRepository, stop chan bool) {
-	now := time.Now()
-	isNeedTobeExecuted := tools.IsDateBefore(job.ExecutedAt, now)
+	now := datetime.Now()
+	isNeedTobeExecuted := datetime.Before(job.ExecutedAt, now)
 	if isNeedTobeExecuted {
 		log.Println("Job will be executed now")
 		ExecuteJob(job, repository, stop)
 	}
 
-	diffInSeconds := tools.DatediffInSeconds(job.ExecutedAt, now)
+	diffInSeconds := datetime.DiffInSeconds(job.ExecutedAt, now)
 	if diffInSeconds < intervalInSeconds && diffInSeconds > 0 {
 		log.Println("Job will be executed in", diffInSeconds, "seconds")
 		RunInQueue(job, repository, diffInSeconds, stop)

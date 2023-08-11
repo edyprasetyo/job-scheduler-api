@@ -2,33 +2,20 @@ package api
 
 import (
 	"fmt"
-	"jobschedulerapi/api/middleware"
+	"jobschedulerapi/api/app"
 	"jobschedulerapi/api/scheduler"
 	_ "jobschedulerapi/docs"
-	"jobschedulerapi/injection"
-	"jobschedulerapi/util/config"
 	"jobschedulerapi/util/migration"
 	"log"
-
-	"github.com/gofiber/fiber/v2"
-	fiberSwagger "github.com/swaggo/fiber-swagger"
 )
 
 func Run() {
 	migration.Migrate()
 
-	app := fiber.New(config.NewFiberConfig())
-
-	app.Use(middleware.RecoveryMiddleware)
-	app.Use(middleware.ErrorMiddleware)
-
-	app.Get("/swagger/*", fiberSwagger.WrapHandler)
-
-	injection.InitPublicRouter(app)
-
 	stopScheduler := make(chan bool)
 	go scheduler.CheckAndRunJobs(stopScheduler)
 
+	app := app.NewApp()
 	port := 8080
 	fmt.Printf("Server is running at http://localhost:%d\n", port)
 	log.Fatal(app.Listen(fmt.Sprintf(":%d", port)))

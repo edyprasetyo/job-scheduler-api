@@ -3,9 +3,8 @@ package jobs_mapper
 import (
 	"jobschedulerapi/domain/dto/jobs_dto"
 	"jobschedulerapi/domain/model"
+	"jobschedulerapi/util/datetime"
 	"jobschedulerapi/util/tools"
-
-	"time"
 )
 
 func MapCreateRequestDto(dto *jobs_dto.CreateRequestDto) *model.TrJobsMdl {
@@ -14,7 +13,7 @@ func MapCreateRequestDto(dto *jobs_dto.CreateRequestDto) *model.TrJobsMdl {
 		APIUrl:      dto.APIUrl,
 		IsExecuted:  false,
 		ExecutedAt:  *tools.StringToDate(dto.ExecutedAt, "dd/MM/yyyy HH:mm:ss"),
-		CreatedTime: time.Now(),
+		CreatedTime: datetime.Now(),
 	}
 }
 

@@ -11,17 +11,24 @@ import (
 type CreateRequestDto struct {
 	JobName    string `json:"jobName" validate:"required"`
 	APIUrl     string `json:"apiUrl" validate:"required,validAPIUrl"`
+	Password   string `json:"password" validate:"required,passwordValid"`
 	ExecutedAt string `json:"executedAt" validate:"required,allowedDate"`
 }
 
 func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 	v.RegisterValidation("allowedDate", allowedDate)
 	v.RegisterValidation("validAPIUrl", validAPIUrl)
+	v.RegisterValidation("passwordValid", passwordValid)
 
 	return []ex.ValidationError{
 		{
 			Field:   "JobName",
 			Message: "Job name belum diisi",
+			Tag:     "required",
+		},
+		{
+			Field:   "Password",
+			Message: "Password belum diisi",
 			Tag:     "required",
 		},
 		{
@@ -38,6 +45,11 @@ func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 			Field:   "APIUrl",
 			Message: "API url tidak valid, harus mengandung http atau https, contoh: http://localhost:8080",
 			Tag:     "validAPIUrl",
+		},
+		{
+			Field:   "Password",
+			Message: "Password tidak sesuai",
+			Tag:     "passwordValid",
 		},
 		{
 			Field:   "ExecutedAt",
@@ -58,4 +70,10 @@ func allowedDate(fl validator.FieldLevel) bool {
 	validFormat := "dd/MM/yyyy HH:mm:ss"
 	time := tools.StringToDate(executedAt, validFormat)
 	return time != nil
+}
+
+func passwordValid(fl validator.FieldLevel) bool {
+	validPassword := "Indorent10!"
+	password := fl.Field().String()
+	return password == validPassword
 }

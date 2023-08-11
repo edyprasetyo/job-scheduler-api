@@ -57,7 +57,7 @@ func (o *JobsUseCaseImpl) Fetch(jobID int) (jobs_dto.FetchResponseDto, error) {
 }
 
 func (o *JobsUseCaseImpl) FetchPendingJobs() ([]jobs_dto.FetchPendingJobsResponseDto, error) {
-	jobs, err := o.JobsRepository.FetchAll("IsExecuted=0", nil)
+	jobs, err := o.JobsRepository.FetchAll("IsExecuted=0 ORDER BY ExecutedAt ASC", nil)
 	if err != nil {
 		return []jobs_dto.FetchPendingJobsResponseDto{}, err
 	}
