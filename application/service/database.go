@@ -1,8 +1,6 @@
 package service
 
-import (
-	"gorm.io/gorm"
-)
+import "gorm.io/gorm"
 
 type Database interface {
 	Begin() *gorm.DB

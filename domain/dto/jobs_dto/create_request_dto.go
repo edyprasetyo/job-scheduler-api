@@ -2,6 +2,7 @@ package jobs_dto
 
 import (
 	ex "jobschedulerapi/api/exception"
+	"jobschedulerapi/util/config"
 	"jobschedulerapi/util/datetime"
 	"strings"
 
@@ -11,14 +12,14 @@ import (
 type CreateRequestDto struct {
 	JobName    string `json:"jobName" validate:"required"`
 	APIUrl     string `json:"apiUrl" validate:"required,validAPIUrl"`
-	Password   string `json:"password" validate:"required,passwordValid"`
+	Password   string `json:"password" validate:"required,validPassword"`
 	ExecutedAt string `json:"executedAt" validate:"required,allowedDate"`
 }
 
 func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 	v.RegisterValidation("allowedDate", allowedDate)
 	v.RegisterValidation("validAPIUrl", validAPIUrl)
-	v.RegisterValidation("passwordValid", passwordValid)
+	v.RegisterValidation("validPassword", validPassword)
 
 	return []ex.ValidationError{
 		{
@@ -49,7 +50,7 @@ func CreateRequestValidation(v *validator.Validate) []ex.ValidationError {
 		{
 			Field:   "Password",
 			Message: "Password tidak sesuai",
-			Tag:     "passwordValid",
+			Tag:     "validPassword",
 		},
 		{
 			Field:   "ExecutedAt",
@@ -72,8 +73,8 @@ func allowedDate(fl validator.FieldLevel) bool {
 	return time != nil
 }
 
-func passwordValid(fl validator.FieldLevel) bool {
-	validPassword := "Indorent10!"
+func validPassword(fl validator.FieldLevel) bool {
+	validPassword := config.GetEnv().JOB_PASSWORD
 	password := fl.Field().String()
 	return password == validPassword
 }
